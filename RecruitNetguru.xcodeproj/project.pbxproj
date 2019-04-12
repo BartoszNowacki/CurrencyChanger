@@ -7,12 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5B8735BB226087500078713F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735BA226087500078713F /* AppDelegate.swift */; };
-		5B8735BD226087500078713F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735BC226087500078713F /* ViewController.swift */; };
-		5B8735C0226087500078713F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B8735BE226087500078713F /* Main.storyboard */; };
 		5B8735C2226087510078713F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B8735C1226087510078713F /* Assets.xcassets */; };
 		5B8735C5226087510078713F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B8735C3226087510078713F /* LaunchScreen.storyboard */; };
 		5B8735D0226087510078713F /* RecruitNetguruTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735CF226087510078713F /* RecruitNetguruTests.swift */; };
+		5B8735E0226087F20078713F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735DF226087F20078713F /* Extensions.swift */; };
+		5B8735E22260880C0078713F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735E12260880C0078713F /* AppDelegate.swift */; };
+		5B8735E42260881C0078713F /* CurrencyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735E32260881C0078713F /* CurrencyCell.swift */; };
+		5B8735E62260882D0078713F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735E52260882D0078713F /* MainViewController.swift */; };
+		5B8735EA226088580078713F /* Currencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735E8226088580078713F /* Currencies.swift */; };
+		5B8735EB226088580078713F /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735E9226088580078713F /* Currency.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,15 +30,18 @@
 
 /* Begin PBXFileReference section */
 		5B8735B7226087500078713F /* RecruitNetguru.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RecruitNetguru.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		5B8735BA226087500078713F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5B8735BC226087500078713F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		5B8735BF226087500078713F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5B8735C1226087510078713F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5B8735C4226087510078713F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5B8735C6226087510078713F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B8735CB226087510078713F /* RecruitNetguruTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecruitNetguruTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B8735CF226087510078713F /* RecruitNetguruTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitNetguruTests.swift; sourceTree = "<group>"; };
 		5B8735D1226087510078713F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5B8735DF226087F20078713F /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		5B8735E12260880C0078713F /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		5B8735E32260881C0078713F /* CurrencyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyCell.swift; sourceTree = "<group>"; };
+		5B8735E52260882D0078713F /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		5B8735E8226088580078713F /* Currencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Currencies.swift; sourceTree = "<group>"; };
+		5B8735E9226088580078713F /* Currency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,9 +83,11 @@
 		5B8735B9226087500078713F /* RecruitNetguru */ = {
 			isa = PBXGroup;
 			children = (
-				5B8735BA226087500078713F /* AppDelegate.swift */,
-				5B8735BC226087500078713F /* ViewController.swift */,
-				5B8735BE226087500078713F /* Main.storyboard */,
+				5B8735E12260880C0078713F /* AppDelegate.swift */,
+				5B8735E7226088460078713F /* Model */,
+				5B8735DE226087BF0078713F /* Networking */,
+				5B8735DB2260879B0078713F /* ViewControllers */,
+				5B8735DA2260878F0078713F /* Extensions */,
 				5B8735C1226087510078713F /* Assets.xcassets */,
 				5B8735C3226087510078713F /* LaunchScreen.storyboard */,
 				5B8735C6226087510078713F /* Info.plist */,
@@ -94,6 +102,55 @@
 				5B8735D1226087510078713F /* Info.plist */,
 			);
 			path = RecruitNetguruTests;
+			sourceTree = "<group>";
+		};
+		5B8735DA2260878F0078713F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5B8735DF226087F20078713F /* Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		5B8735DB2260879B0078713F /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				5B8735E52260882D0078713F /* MainViewController.swift */,
+				5B8735DD226087B50078713F /* Alerts */,
+				5B8735DC226087AA0078713F /* Cells */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		5B8735DC226087AA0078713F /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				5B8735E32260881C0078713F /* CurrencyCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		5B8735DD226087B50078713F /* Alerts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Alerts;
+			sourceTree = "<group>";
+		};
+		5B8735DE226087BF0078713F /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		5B8735E7226088460078713F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5B8735E8226088580078713F /* Currencies.swift */,
+				5B8735E9226088580078713F /* Currency.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -146,6 +203,7 @@
 				TargetAttributes = {
 					5B8735B6226087500078713F = {
 						CreatedOnToolsVersion = 10.2;
+						LastSwiftMigration = 1020;
 					};
 					5B8735CA226087510078713F = {
 						CreatedOnToolsVersion = 10.2;
@@ -179,7 +237,6 @@
 			files = (
 				5B8735C5226087510078713F /* LaunchScreen.storyboard in Resources */,
 				5B8735C2226087510078713F /* Assets.xcassets in Resources */,
-				5B8735C0226087500078713F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -197,8 +254,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B8735BD226087500078713F /* ViewController.swift in Sources */,
-				5B8735BB226087500078713F /* AppDelegate.swift in Sources */,
+				5B8735EB226088580078713F /* Currency.swift in Sources */,
+				5B8735E42260881C0078713F /* CurrencyCell.swift in Sources */,
+				5B8735E22260880C0078713F /* AppDelegate.swift in Sources */,
+				5B8735E0226087F20078713F /* Extensions.swift in Sources */,
+				5B8735E62260882D0078713F /* MainViewController.swift in Sources */,
+				5B8735EA226088580078713F /* Currencies.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,14 +282,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		5B8735BE226087500078713F /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5B8735BF226087500078713F /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		5B8735C3226087510078713F /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -360,17 +413,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = B48UT365VC;
 				INFOPLIST_FILE = RecruitNetguru/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = BartoszNowacki.RecruitNetguru;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -378,9 +434,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = B48UT365VC;
 				INFOPLIST_FILE = RecruitNetguru/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -388,7 +446,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = BartoszNowacki.RecruitNetguru;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
