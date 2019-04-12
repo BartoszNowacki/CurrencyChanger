@@ -77,10 +77,16 @@ final class MainViewController: UIViewController {
         baseStackView.addArrangedSubview(baseCurrencyLabel)
         baseStackView.addArrangedSubview(amountField)
         baseCurrencyLabel.text = "No currency"
-        amountField.placeholder = "enter amount"
-        amountField.keyboardType = .decimalPad
+        setupAmountField()
         baseStackView.heightAnchor.constraint(equalToConstant: self.view.frame.height/4).isActive = true
         ratesStackView.addArrangedSubview(baseStackView)
+    }
+    
+    private func setupAmountField() {
+        amountField.placeholder = "enter amount"
+        amountField.keyboardType = .decimalPad
+        amountField.delegate = self
+        amountField.addDoneButtonToKeyboard(myAction:  #selector(self.amountField.resignFirstResponder))
     }
     
     private func setupTableView() {
@@ -95,13 +101,21 @@ final class MainViewController: UIViewController {
         tableView.reloadData()
     }
     
+    private func getAmount() -> Double {
+        if amountField.text != nil && amountField.text != "" {
+            let amount = amountField.text!
+            return Double(amount) ?? 1.0
+        } else {
+            return 1.0
+        }
+    }
+    
     private func convertCurrencyData() -> [Currency] {
         var cRates = [Currency]()
         for code in Array(currencies!.rates.keys) {
             let rate = currencies!.rates[code]!
             cRates.append(Currency(code: code, rate: rate))
         }
-        print("tbdc it is working!!!! \(cRates)")
         return cRates
     }
     
@@ -124,7 +138,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! CurrencyCell
         if currencyRates != nil {
-            cell.currency = currencyRates![indexPath.row]
+            cell.setup(currency: currencyRates![indexPath.row], amount: getAmount())
         }
         return cell
     }

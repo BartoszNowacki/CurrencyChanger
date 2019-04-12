@@ -14,5 +14,5 @@ struct Currencies: Codable {
     let timestamp: Int
     let base: String
     let date: String
-    var rates: [String: Float]
+    var rates: [String: Double]
 }

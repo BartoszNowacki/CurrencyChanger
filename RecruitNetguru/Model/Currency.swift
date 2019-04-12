@@ -10,5 +10,5 @@ import Foundation
 
 struct Currency {
     let code: String
-    let rate: Float
+    let rate: Double
 }
