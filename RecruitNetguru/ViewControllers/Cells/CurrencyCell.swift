@@ -10,17 +10,17 @@ import UIKit
 
 class CurrencyCell: UITableViewCell {
 
-    var amount:Double = 1.0
+    var rate: Double!
     var currency : Currency! {
         didSet {
             currencyCodeLabel.text = currency.code
-            currencyRateLabel.text = String(describing: (currency.rate * amount).rounded(toPlaces: 2))
+            currencyRateLabel.text = String(describing: (rate).rounded(toPlaces: 2))
         }
     }
     
     private let currencyCodeLabel : UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .gray
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.textAlignment = .left
         return label
@@ -28,7 +28,7 @@ class CurrencyCell: UITableViewCell {
     
     private let currencyRateLabel : UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .gray
         label.font = UIFont.systemFont(ofSize: 16)
         label.textAlignment = .right
         label.numberOfLines = 0
@@ -52,8 +52,15 @@ class CurrencyCell: UITableViewCell {
     
     // MARK: - Setups
     
-    func setup(currency: Currency, amount: Double) {
-        self.amount = amount
+    func setup(currency: Currency, rate: Double, isMarked: Bool) {
+        self.rate = rate
         self.currency = currency
+        if isMarked {
+            currencyCodeLabel.textColor = .black
+            currencyRateLabel.textColor = .black
+        } else {
+            currencyCodeLabel.textColor = .gray
+            currencyRateLabel.textColor = .gray
+        }
     }
 }

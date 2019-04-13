@@ -17,9 +17,6 @@ extension UIView {
             let insets = self.safeAreaInsets
             topInset = insets.top
             bottomInset = insets.bottom
-            
-            print("Top: \(topInset)")
-            print("bottom: \(bottomInset)")
         }
         
         translatesAutoresizingMaskIntoConstraints = false
@@ -71,5 +68,17 @@ extension Double {
     func rounded(toPlaces places:Int) -> Double {
         let divisor = pow(10.0, Double(places))
         return (self * divisor).rounded() / divisor
+    }
+}
+
+extension UINavigationController {
+    override open var supportedInterfaceOrientations : UIInterfaceOrientationMask     {
+        return .all
+    }
+}
+
+extension UITabBarController {
+    override open var supportedInterfaceOrientations : UIInterfaceOrientationMask     {
+        return .all
     }
 }

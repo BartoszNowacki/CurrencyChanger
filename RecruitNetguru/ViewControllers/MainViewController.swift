@@ -8,6 +8,11 @@
 
 import UIKit
 
+enum ViewMode {
+    case normal
+    case addCurrency
+}
+
 final class MainViewController: UIViewController {
     
     let mainStackView = UIStackView()
@@ -15,19 +20,26 @@ final class MainViewController: UIViewController {
     let tableView = UITableView()
     let baseCurrencyLabel = UILabel()
     let amountField = UITextField()
+    let navButton = UIBarButtonItem(title: "Add Currency", style: .plain, target: nil, action: #selector(navButtonClicked))
     
     var currencies: Currencies?
+    var baseCurrency = Currency(code: "EUR", rate: 1.0)
+    var markedCurrenciesList = ["USD", "PLN", "CAD", "GBP"]
     var currencyRates: [Currency]?
+    var viewMode: ViewMode = .normal
     let cellID = "CurrencyCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        currencies = Currencies(success: true, timestamp: 1, base: "EUR", date: "Date", rates: ["PLN": 1.24, "GBD": 1.33])
-        currencyRates = convertCurrencyData()
-        updateView()
-        tableView.reloadData()
+        getCurrencies()
     }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+    return .all
+    }
+    
+    // MARK: - Setups View Components
     
     private func setupView() {
         setupMainStack()
@@ -63,11 +75,8 @@ final class MainViewController: UIViewController {
     private func setupNavBar() {
         let navBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
         mainStackView.addArrangedSubview(navBar)
-        
         let navItem = UINavigationItem(title: "Currency Converter")
-        let buttonItem = UIBarButtonItem(title: "Options", style: .plain, target: nil, action: #selector(navButtonClicked))
-        navItem.rightBarButtonItem = buttonItem
-        
+        navItem.rightBarButtonItem = navButton
         navBar.setItems([navItem], animated: false)
     }
     
@@ -85,6 +94,7 @@ final class MainViewController: UIViewController {
     private func setupAmountField() {
         amountField.placeholder = "enter amount"
         amountField.keyboardType = .decimalPad
+        amountField.textAlignment = .right
         amountField.delegate = self
         amountField.addDoneButtonToKeyboard(myAction:  #selector(self.amountField.resignFirstResponder))
     }
@@ -96,11 +106,40 @@ final class MainViewController: UIViewController {
         ratesStackView.addArrangedSubview(tableView)
     }
     
-    private func updateView() {
-        baseCurrencyLabel.text = currencies?.base
+    // MARK: - Other Functions
+    
+    /// Sets currencyRates data for active viewMode and updates View with current Data
+    private func updateViewAndBaseData() {
+        if currencies != nil {
+            switch viewMode {
+            case .normal:
+                currencyRates = CurrencyManager.getMarkedCurrencies(from: currencies!, with: markedCurrenciesList)
+            case .addCurrency:
+                currencyRates = CurrencyManager.getFullList(currencies: self.currencies!)
+            }
+        }
+        baseCurrencyLabel.text = baseCurrency.code
         tableView.reloadData()
     }
     
+    /// Get currencies from API.
+    private func getCurrencies() {
+        APICurrenciesRequest()
+            .dispatch(
+                onSuccess: { (successResponse) in
+                    self.currencies = successResponse
+                    self.updateViewAndBaseData()
+            },
+                onFailure: { (errorResponse, error) in
+                    print("Error occurred during download process")
+                    if errorResponse != nil {
+                        print("Error: \(errorResponse!.error.info)")
+                    }
+            })
+    }
+    
+    /// Takes value from amountField and checks if it's not empty or nil (otherwiese returns 1.0)
+    /// - returns: Double
     private func getAmount() -> Double {
         if amountField.text != nil && amountField.text != "" {
             let amount = amountField.text!
@@ -110,23 +149,23 @@ final class MainViewController: UIViewController {
         }
     }
     
-    private func convertCurrencyData() -> [Currency] {
-        var cRates = [Currency]()
-        for code in Array(currencies!.rates.keys) {
-            let rate = currencies!.rates[code]!
-            cRates.append(Currency(code: code, rate: rate))
-        }
-        return cRates
-    }
-    
+    /// Navigation button action, which change current viewMode state.
     @objc func navButtonClicked() {
-        print("color clicked")
+        switch viewMode {
+        case .normal:
+            viewMode = .addCurrency
+            navButton.title = "Save"
+        case .addCurrency:
+            viewMode = .normal
+            navButton.title = "Add Currency"
+        }
+        updateViewAndBaseData()
     }
-    
 
 }
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if currencyRates != nil {
             return currencyRates!.count
@@ -138,7 +177,9 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! CurrencyCell
         if currencyRates != nil {
-            cell.setup(currency: currencyRates![indexPath.row], amount: getAmount())
+            let isOnMarkedList = markedCurrenciesList.contains(currencyRates![indexPath.row].code)
+            let rate = CurrencyManager.getCurrencyRate(currencyRate: currencyRates![indexPath.row].rate, baseCurrencyRate: baseCurrency.rate, amount: getAmount())
+            cell.setup(currency: currencyRates![indexPath.row], rate: rate, isMarked: isOnMarkedList)
         }
         return cell
     }
@@ -148,7 +189,32 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("cell tapped")
+        switch viewMode {
+        case .normal:
+           normalSelectRow(rowIndex: indexPath.row)
+        case .addCurrency:
+            addCurrencySelectRow(rowIndex: indexPath.row)
+        }
+    }
+    
+    private func normalSelectRow(rowIndex: Int) {
+        markedCurrenciesList.append(baseCurrency.code)
+        baseCurrency = currencyRates![rowIndex]
+        if let index = markedCurrenciesList.firstIndex(of: baseCurrency.code) {
+            markedCurrenciesList.remove(at: index)
+        }
+        updateViewAndBaseData()
+    }
+    
+    private func addCurrencySelectRow(rowIndex: Int) {
+        if markedCurrenciesList.contains(currencyRates![rowIndex].code) {
+            if let index = markedCurrenciesList.firstIndex(of: currencyRates![rowIndex].code) {
+                markedCurrenciesList.remove(at: index)
+            }
+        } else {
+            markedCurrenciesList.append(currencyRates![rowIndex].code)
+        }
+        updateViewAndBaseData()
     }
 }
 

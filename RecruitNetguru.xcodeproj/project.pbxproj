@@ -16,6 +16,9 @@
 		5B8735E62260882D0078713F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735E52260882D0078713F /* MainViewController.swift */; };
 		5B8735EA226088580078713F /* Currencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735E8226088580078713F /* Currencies.swift */; };
 		5B8735EB226088580078713F /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735E9226088580078713F /* Currency.swift */; };
+		5B8735ED2260CDFD0078713F /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735EC2260CDFD0078713F /* APIRequest.swift */; };
+		5B8735EF2260CE740078713F /* APICurrenciesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735EE2260CE740078713F /* APICurrenciesRequest.swift */; };
+		5B8735F32261E3F50078713F /* CurrencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735F22261E3F50078713F /* CurrencyManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +45,9 @@
 		5B8735E52260882D0078713F /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		5B8735E8226088580078713F /* Currencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Currencies.swift; sourceTree = "<group>"; };
 		5B8735E9226088580078713F /* Currency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		5B8735EC2260CDFD0078713F /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
+		5B8735EE2260CE740078713F /* APICurrenciesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICurrenciesRequest.swift; sourceTree = "<group>"; };
+		5B8735F22261E3F50078713F /* CurrencyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				5B8735E12260880C0078713F /* AppDelegate.swift */,
+				5B8735F12261E3DA0078713F /* Manager */,
 				5B8735E7226088460078713F /* Model */,
 				5B8735DE226087BF0078713F /* Networking */,
 				5B8735DB2260879B0078713F /* ViewControllers */,
@@ -116,7 +123,6 @@
 			isa = PBXGroup;
 			children = (
 				5B8735E52260882D0078713F /* MainViewController.swift */,
-				5B8735DD226087B50078713F /* Alerts */,
 				5B8735DC226087AA0078713F /* Cells */,
 			);
 			path = ViewControllers;
@@ -130,16 +136,11 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		5B8735DD226087B50078713F /* Alerts */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Alerts;
-			sourceTree = "<group>";
-		};
 		5B8735DE226087BF0078713F /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				5B8735F02260D16F0078713F /* Requests */,
+				5B8735EC2260CDFD0078713F /* APIRequest.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -151,6 +152,22 @@
 				5B8735E9226088580078713F /* Currency.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		5B8735F02260D16F0078713F /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				5B8735EE2260CE740078713F /* APICurrenciesRequest.swift */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		5B8735F12261E3DA0078713F /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				5B8735F22261E3F50078713F /* CurrencyManager.swift */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -254,7 +271,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B8735F32261E3F50078713F /* CurrencyManager.swift in Sources */,
 				5B8735EB226088580078713F /* Currency.swift in Sources */,
+				5B8735ED2260CDFD0078713F /* APIRequest.swift in Sources */,
+				5B8735EF2260CE740078713F /* APICurrenciesRequest.swift in Sources */,
 				5B8735E42260881C0078713F /* CurrencyCell.swift in Sources */,
 				5B8735E22260880C0078713F /* AppDelegate.swift in Sources */,
 				5B8735E0226087F20078713F /* Extensions.swift in Sources */,
@@ -344,7 +364,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -399,7 +419,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
