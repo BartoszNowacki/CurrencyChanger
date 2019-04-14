@@ -22,30 +22,25 @@ final class MainViewController: UIViewController {
     let amountField = UITextField()
     let navButton = UIBarButtonItem(title: "Add Currency", style: .plain, target: nil, action: #selector(navButtonClicked))
     
-    var currencies: Currencies?
-    var baseCurrency = Currency(code: "EUR", rate: 1.0)
-    var markedCurrenciesList = ["USD", "PLN", "CAD", "GBP"]
-    var currencyRates: [Currency]?
-    var viewMode: ViewMode = .normal
     let cellID = "CurrencyCell"
     
     let viewModel: MainViewModelProtocol
     
-    init(viewModel: MainViewModelProtocol) {
+    init(viewModel: MainViewModelProtocol = MainViewViewModel()) {
         self.viewModel = viewModel
-        bindViewModel()
         super.init(nibName: nil, bundle: nil)
+        self.bindViewModel()
     }
     
     required init?(coder aDecoder: NSCoder) {
         self.viewModel = MainViewViewModel()
         super.init(coder: aDecoder)
+        self.bindViewModel()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        getCurrencies()
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
@@ -56,10 +51,19 @@ final class MainViewController: UIViewController {
         viewModel.navTitle.bindAndFire {
             [unowned self] in
             self.navButton.title = $0
+            print("tbdc navTitle invoked")
         }
         viewModel.baseCurrency.bindAndFire {
             [unowned self] in
-            self.baseCurrencyLabel.text = $0
+            self.baseCurrencyLabel.text = $0.code
+            print("tbdc baseCurrency invoked")
+        }
+        viewModel.currencyRates.bindAndFire {
+            [unowned self] in
+            if $0 != nil {
+                self.tableView.reloadData()
+                print("tbdc currencyRates invoked")
+            }
         }
     }
     
@@ -132,36 +136,6 @@ final class MainViewController: UIViewController {
     
     // MARK: - Other Functions
     
-    /// Sets currencyRates data for active viewMode and updates View with current Data
-    private func updateViewAndBaseData() {
-        if let currencies = currencies {
-            switch viewMode {
-            case .normal:
-                currencyRates = CurrencyManager.getMarkedCurrencies(from: currencies, with: markedCurrenciesList)
-            case .addCurrency:
-                currencyRates = CurrencyManager.getFullList(currencies: currencies)
-            }
-        }
-        baseCurrencyLabel.text = baseCurrency.code
-        tableView.reloadData()
-    }
-    
-    /// Get currencies from API.
-    private func getCurrencies() {
-        APICurrenciesRequest()
-            .dispatch(
-                onSuccess: { (successResponse) in
-                    self.currencies = successResponse
-                    self.updateViewAndBaseData()
-            },
-                onFailure: { (errorResponse, error) in
-                    print("Error occurred during download process")
-                    if errorResponse != nil {
-                        print("Error: \(errorResponse!.error.info)")
-                    }
-            })
-    }
-    
     /// Takes value from amountField and checks if it's not empty or nil (otherwiese returns 1.0)
     /// - returns: Double
     private func getAmount() -> Double {
@@ -174,15 +148,7 @@ final class MainViewController: UIViewController {
     
     /// Navigation button action, which change current viewMode state.
     @objc func navButtonClicked() {
-        switch viewMode {
-        case .normal:
-            viewMode = .addCurrency
-            navButton.title = "Save"
-        case .addCurrency:
-            viewMode = .normal
-            navButton.title = "Add Currency"
-        }
-        updateViewAndBaseData()
+        viewModel.navButtonClickedAction()
     }
 
 }
@@ -190,20 +156,19 @@ final class MainViewController: UIViewController {
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let currencyRates = currencyRates {
+        if let currencyRates = viewModel.currencyRates.value {
+            print("count is \(currencyRates.count)")
             return currencyRates.count
         } else {
+            print("count is else 0")
             return 0
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! CurrencyCell
-        if let currencyRates = currencyRates {
-            let isOnMarkedList = markedCurrenciesList.contains(currencyRates[indexPath.row].code)
-            let rate = CurrencyManager.getCurrencyRate(currencyRate: currencyRates[indexPath.row].rate, baseCurrencyRate: baseCurrency.rate, amount: getAmount())
-            cell.setup(currency: currencyRates[indexPath.row], rate: rate, isMarked: isOnMarkedList)
-        }
+        let cellData = viewModel.getCellDataForCurrency(at: indexPath.row, amountText: amountField.text)
+        cell.setup(currency: cellData.currency, rate: cellData.rate, isMarked: cellData.isMarked)
         return cell
     }
     
@@ -212,34 +177,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch viewMode {
-        case .normal:
-           normalSelectRow(rowIndex: indexPath.row)
-        case .addCurrency:
-            addCurrencySelectRow(rowIndex: indexPath.row)
-        }
-    }
-    
-    private func normalSelectRow(rowIndex: Int) {
-        markedCurrenciesList.append(baseCurrency.code)
-        baseCurrency = currencyRates![rowIndex]
-        if let index = markedCurrenciesList.firstIndex(of: baseCurrency.code) {
-            markedCurrenciesList.remove(at: index)
-        }
-        updateViewAndBaseData()
-    }
-    
-    private func addCurrencySelectRow(rowIndex: Int) {
-        if let currencyRates = currencyRates {
-            if markedCurrenciesList.contains(currencyRates[rowIndex].code) {
-                if let index = markedCurrenciesList.firstIndex(of: currencyRates[rowIndex].code) {
-                    markedCurrenciesList.remove(at: index)
-                }
-            } else {
-                markedCurrenciesList.append(currencyRates[rowIndex].code)
-            }
-            updateViewAndBaseData()
-        }
+        viewModel.tapOnCell(at: indexPath.row)
     }
 }
 

@@ -57,7 +57,7 @@ class CurrencyCell: UITableViewCell {
     private func setupCurrencyCodeLabel() {
         currencyCodeLabel.textColor = .gray
         currencyCodeLabel.font = UIFont.systemFont(ofSize: 16)
-        currencyCodeLabel.textAlignment = .right
+        currencyCodeLabel.textAlignment = .left
         currencyCodeLabel.numberOfLines = 0
     }
     
