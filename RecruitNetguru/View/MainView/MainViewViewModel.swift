@@ -46,7 +46,7 @@ class MainViewViewModel: MainViewModelProtocol {
             })
     }
     
-    /// Sets currencyRates data for active viewMode and updates View with current Data
+    /// Sets currencyRates data for active viewMode and updates View with current Data.
     private func updateViewData() {
         if let currencies = currencies {
             switch viewMode {
@@ -58,8 +58,9 @@ class MainViewViewModel: MainViewModelProtocol {
         }
     }
     
-    /// MARK: - Protocol Functions
+    // MARK: - Protocol Functions
     
+    /// Switch viewMode and displayed data.
     func navButtonClickedAction() {
         switch viewMode {
         case .normal:
@@ -72,6 +73,10 @@ class MainViewViewModel: MainViewModelProtocol {
         updateViewData()
     }
     
+    /// Gets data for cell with given index.
+    /// - parameter index: index of current cell
+    /// - parameter amountText: text from amountField with number to convert
+    /// - returns: currency of given index, converted rate, and Bool with infromation, if it is in markedCurrenciesList
     func getCellDataForCurrency(at index: Int, amountText: String?) -> (currency: Currency, rate: Double, isMarked: Bool) {
         if let currencyRates = currencyRates.value {
             let currency = currencyRates[index]
@@ -83,6 +88,7 @@ class MainViewViewModel: MainViewModelProtocol {
         }
     }
     
+    /// Action function for tapping on cell. It choose action depends on viewMode.
     func tapOnCellAction(at rowIndex: Int) {
         switch viewMode {
         case .normal:
@@ -94,6 +100,7 @@ class MainViewViewModel: MainViewModelProtocol {
     
     /// MARK: - Helper Functions
     
+    /// Action for tapping on cell, when viewMode is .normal. It's changing the baseCurrency.
     fileprivate func normalSelectRow(rowIndex: Int) {
         if let currencyRates = currencyRates.value {
             markedCurrenciesList.append(baseCurrency.value.code)
@@ -105,6 +112,7 @@ class MainViewViewModel: MainViewModelProtocol {
         }
     }
     
+    /// Action for tapping on cell, when viewMode is .addCurrency. It's adding currency to currencyRates
     fileprivate func addCurrencySelectRow(rowIndex: Int) {
         if let currencyRates = currencyRates.value {
             if markedCurrenciesList.contains(currencyRates[rowIndex].code) {
@@ -118,6 +126,7 @@ class MainViewViewModel: MainViewModelProtocol {
         }
     }
     
+    /// Gets Double amount from string.
     fileprivate func getAmount(_ amountText: String?) -> Double {
         if let amountText = amountText, amountText != "" {
             return Double(amountText) ?? 1.0
@@ -126,6 +135,7 @@ class MainViewViewModel: MainViewModelProtocol {
         }
     }
     
+    /// Check if currency with given index is on markedCurrenciesList
     fileprivate func isCurrencyMarked(at index: Int) -> Bool {
         if let currencyRates = currencyRates.value {
             return markedCurrenciesList.contains(currencyRates[index].code)
