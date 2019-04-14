@@ -10,30 +10,18 @@ import UIKit
 
 class CurrencyCell: UITableViewCell {
 
-    var rate: Double!
-    var currency : Currency! {
+    private let currencyCodeLabel = UILabel()
+    private let currencyRateLabel = UILabel()
+    
+    var rate: Double = 0.0
+    var currency : Currency? {
         didSet {
-            currencyCodeLabel.text = currency.code
-            currencyRateLabel.text = String(describing: (rate).rounded(toPlaces: 2))
+            if let currency = currency {
+                currencyCodeLabel.text = currency.code
+                currencyRateLabel.text = String(describing: (rate).rounded(toPlaces: 2))
+            }
         }
     }
-    
-    private let currencyCodeLabel : UILabel = {
-        let label = UILabel()
-        label.textColor = .gray
-        label.font = UIFont.boldSystemFont(ofSize: 16)
-        label.textAlignment = .left
-        return label
-    }()
-    
-    private let currencyRateLabel : UILabel = {
-        let label = UILabel()
-        label.textColor = .gray
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.textAlignment = .right
-        label.numberOfLines = 0
-        return label
-    }()
     
     // MARK: - Lifecycle methods
     
@@ -53,6 +41,8 @@ class CurrencyCell: UITableViewCell {
     // MARK: - Setups
     
     func setup(currency: Currency, rate: Double, isMarked: Bool) {
+        setupCurrencyCodeLabel()
+        setupCurrencyRateLabel()
         self.rate = rate
         self.currency = currency
         if isMarked {
@@ -62,5 +52,19 @@ class CurrencyCell: UITableViewCell {
             currencyCodeLabel.textColor = .gray
             currencyRateLabel.textColor = .gray
         }
+    }
+    
+    private func setupCurrencyCodeLabel() {
+        currencyCodeLabel.textColor = .gray
+        currencyCodeLabel.font = UIFont.systemFont(ofSize: 16)
+        currencyCodeLabel.textAlignment = .right
+        currencyCodeLabel.numberOfLines = 0
+    }
+    
+    private func setupCurrencyRateLabel() {
+        currencyRateLabel.textColor = .gray
+        currencyRateLabel.font = UIFont.systemFont(ofSize: 16)
+        currencyRateLabel.textAlignment = .right
+        currencyRateLabel.numberOfLines = 0
     }
 }

@@ -29,6 +29,19 @@ final class MainViewController: UIViewController {
     var viewMode: ViewMode = .normal
     let cellID = "CurrencyCell"
     
+    let viewModel: MainViewModelProtocol
+    
+    init(viewModel: MainViewModelProtocol) {
+        self.viewModel = viewModel
+        bindViewModel()
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.viewModel = MainViewViewModel()
+        super.init(coder: aDecoder)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -37,6 +50,17 @@ final class MainViewController: UIViewController {
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
     return .all
+    }
+    
+    fileprivate func bindViewModel() {
+        viewModel.navTitle.bindAndFire {
+            [unowned self] in
+            self.navButton.title = $0
+        }
+        viewModel.baseCurrency.bindAndFire {
+            [unowned self] in
+            self.baseCurrencyLabel.text = $0
+        }
     }
     
     // MARK: - Setups View Components
@@ -110,12 +134,12 @@ final class MainViewController: UIViewController {
     
     /// Sets currencyRates data for active viewMode and updates View with current Data
     private func updateViewAndBaseData() {
-        if currencies != nil {
+        if let currencies = currencies {
             switch viewMode {
             case .normal:
-                currencyRates = CurrencyManager.getMarkedCurrencies(from: currencies!, with: markedCurrenciesList)
+                currencyRates = CurrencyManager.getMarkedCurrencies(from: currencies, with: markedCurrenciesList)
             case .addCurrency:
-                currencyRates = CurrencyManager.getFullList(currencies: self.currencies!)
+                currencyRates = CurrencyManager.getFullList(currencies: currencies)
             }
         }
         baseCurrencyLabel.text = baseCurrency.code
@@ -141,8 +165,7 @@ final class MainViewController: UIViewController {
     /// Takes value from amountField and checks if it's not empty or nil (otherwiese returns 1.0)
     /// - returns: Double
     private func getAmount() -> Double {
-        if amountField.text != nil && amountField.text != "" {
-            let amount = amountField.text!
+        if let amount = amountField.text, amount != "" {
             return Double(amount) ?? 1.0
         } else {
             return 1.0
@@ -167,8 +190,8 @@ final class MainViewController: UIViewController {
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if currencyRates != nil {
-            return currencyRates!.count
+        if let currencyRates = currencyRates {
+            return currencyRates.count
         } else {
             return 0
         }
@@ -176,10 +199,10 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! CurrencyCell
-        if currencyRates != nil {
-            let isOnMarkedList = markedCurrenciesList.contains(currencyRates![indexPath.row].code)
-            let rate = CurrencyManager.getCurrencyRate(currencyRate: currencyRates![indexPath.row].rate, baseCurrencyRate: baseCurrency.rate, amount: getAmount())
-            cell.setup(currency: currencyRates![indexPath.row], rate: rate, isMarked: isOnMarkedList)
+        if let currencyRates = currencyRates {
+            let isOnMarkedList = markedCurrenciesList.contains(currencyRates[indexPath.row].code)
+            let rate = CurrencyManager.getCurrencyRate(currencyRate: currencyRates[indexPath.row].rate, baseCurrencyRate: baseCurrency.rate, amount: getAmount())
+            cell.setup(currency: currencyRates[indexPath.row], rate: rate, isMarked: isOnMarkedList)
         }
         return cell
     }
@@ -207,14 +230,16 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     private func addCurrencySelectRow(rowIndex: Int) {
-        if markedCurrenciesList.contains(currencyRates![rowIndex].code) {
-            if let index = markedCurrenciesList.firstIndex(of: currencyRates![rowIndex].code) {
-                markedCurrenciesList.remove(at: index)
+        if let currencyRates = currencyRates {
+            if markedCurrenciesList.contains(currencyRates[rowIndex].code) {
+                if let index = markedCurrenciesList.firstIndex(of: currencyRates[rowIndex].code) {
+                    markedCurrenciesList.remove(at: index)
+                }
+            } else {
+                markedCurrenciesList.append(currencyRates[rowIndex].code)
             }
-        } else {
-            markedCurrenciesList.append(currencyRates![rowIndex].code)
+            updateViewAndBaseData()
         }
-        updateViewAndBaseData()
     }
 }
 

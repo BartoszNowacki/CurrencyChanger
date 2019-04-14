@@ -10,25 +10,25 @@ import XCTest
 @testable import RecruitNetguru
 
 class RecruitNetguruTests: XCTestCase {
-
+    var currencyManagerTest: CurrencyManager!
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        super.setUp()
     }
 
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        super.tearDown()
     }
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func testScoreIsComputedWhenGuessGTTarget() {
+        // 1. given
+        let currencyRate = 2.5
+        let baseCurrencyRate = 5.0
+        let amount = 3.0
+        // 2. when
+        let score =  CurrencyManager.getCurrencyRate(currencyRate: currencyRate, baseCurrencyRate: baseCurrencyRate, amount: amount)
+        
+        // 3. then
+        XCTAssertEqual(score, 1.5, "Currency convertion is wrong")
     }
 
 }

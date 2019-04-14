@@ -25,7 +25,6 @@ class APIRequest {
         let info: String
     }
     
-    
     enum APIError: Error {
         case invalidEndpoint
         case errorResponseDetected
@@ -35,7 +34,7 @@ class APIRequest {
 
 extension APIRequest {
     
-    public static func processResponse<T: Codable, E: Codable>(
+    private static func processResponse<T: Codable, E: Codable>(
         _ dataOrNil: Data?,
         _ urlResponseOrNil: URLResponse?,
         _ errorOrNil: Error?,
@@ -60,7 +59,7 @@ extension APIRequest {
         }
     }
     
-    public static func urlRequest(from request: APIEndpoint) -> URLRequest? {
+    private static func urlRequest(from request: APIEndpoint) -> URLRequest? {
         let endpoint = request.endpoint()
         guard let baseUrl = Bundle.main.infoDictionary?["API URL"] as? String else { return nil }
         guard let apiKey = Bundle.main.infoDictionary?["API KEY"] as? String else { return nil }
