@@ -8,11 +8,6 @@
 
 import UIKit
 
-enum ViewMode {
-    case normal
-    case addCurrency
-}
-
 final class MainViewController: UIViewController {
     
     let mainStackView = UIStackView()
@@ -20,7 +15,7 @@ final class MainViewController: UIViewController {
     let tableView = UITableView()
     let baseCurrencyLabel = UILabel()
     let amountField = UITextField()
-    let navButton = UIBarButtonItem(title: "Add Currency", style: .plain, target: nil, action: #selector(navButtonClicked))
+    let navButton = UIBarButtonItem(title: NSLocalizedString("Main: Add Currency", comment: ""), style: .plain, target: nil, action: #selector(navButtonClicked))
     
     let cellID = "CurrencyCell"
     
@@ -47,22 +42,21 @@ final class MainViewController: UIViewController {
     return .all
     }
     
+    
+    /// This functions bind data from viewModel. If change occurs, the view will respond and update
     fileprivate func bindViewModel() {
         viewModel.navTitle.bindAndFire {
             [unowned self] in
             self.navButton.title = $0
-            print("tbdc navTitle invoked")
         }
         viewModel.baseCurrency.bindAndFire {
             [unowned self] in
             self.baseCurrencyLabel.text = $0.code
-            print("tbdc baseCurrency invoked")
         }
         viewModel.currencyRates.bindAndFire {
             [unowned self] in
             if $0 != nil {
                 self.tableView.reloadData()
-                print("tbdc currencyRates invoked")
             }
         }
     }
@@ -103,7 +97,7 @@ final class MainViewController: UIViewController {
     private func setupNavBar() {
         let navBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
         mainStackView.addArrangedSubview(navBar)
-        let navItem = UINavigationItem(title: "Currency Converter")
+        let navItem = UINavigationItem(title: NSLocalizedString("Main: Title", comment: ""))
         navItem.rightBarButtonItem = navButton
         navBar.setItems([navItem], animated: false)
     }
@@ -113,7 +107,6 @@ final class MainViewController: UIViewController {
         baseStackView.axis = .horizontal
         baseStackView.addArrangedSubview(baseCurrencyLabel)
         baseStackView.addArrangedSubview(amountField)
-        baseCurrencyLabel.text = "No currency"
         setupAmountField()
         baseStackView.heightAnchor.constraint(equalToConstant: self.view.frame.height/4).isActive = true
         ratesStackView.addArrangedSubview(baseStackView)
@@ -134,17 +127,7 @@ final class MainViewController: UIViewController {
         ratesStackView.addArrangedSubview(tableView)
     }
     
-    // MARK: - Other Functions
-    
-    /// Takes value from amountField and checks if it's not empty or nil (otherwiese returns 1.0)
-    /// - returns: Double
-    private func getAmount() -> Double {
-        if let amount = amountField.text, amount != "" {
-            return Double(amount) ?? 1.0
-        } else {
-            return 1.0
-        }
-    }
+    // MARK: - Button Actions
     
     /// Navigation button action, which change current viewMode state.
     @objc func navButtonClicked() {
@@ -177,7 +160,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.tapOnCell(at: indexPath.row)
+        viewModel.tapOnCellAction(at: indexPath.row)
     }
 }
 

@@ -1,0 +1,12 @@
+//
+//  Localizable.strings
+//  RecruitNetguru
+//
+//  Created by Bartosz Nowacki on 08/04/2019.
+//  Copyright © 2019 Bartosz Nowacki. All rights reserved.
+//
+
+//MainView
+"Main: Add Currency"    = "Add Currency";
+"Main: Save"    = "Save";
+"Main: Title"    = "Currency Converter";

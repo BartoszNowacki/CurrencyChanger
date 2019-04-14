@@ -8,6 +8,11 @@
 
 import Foundation
 
+enum ViewMode {
+    case normal
+    case addCurrency
+}
+
 class MainViewViewModel: MainViewModelProtocol {
     
     var currencies: Currencies?
@@ -53,47 +58,32 @@ class MainViewViewModel: MainViewModelProtocol {
         }
     }
     
-    func getCellDataForCurrency(at index: Int, amountText: String?) -> (currency: Currency, rate: Double, isMarked: Bool) {
-        if let currencyRates = currencyRates.value {
-            return (currencyRates[index], getAmount(amountText), isCurrencyMarked(at: index))
-        } else {
-            fatalError("There is no currencyRates")
-        }
-    }
-    
-    fileprivate func getAmount(_ amountText: String?) -> Double {
-        print("tbdc AmountFiled is: \(amountText)")
-        if amountText != nil && amountText != "" {
-            print("tbdc amount is: \(Double(amountText) ?? 1.0)")
-            return Double(amountText!)
-        } else {
-            return 1.0
-        }
-    }
-    
-    fileprivate func isCurrencyMarked(at index: Int) -> Bool {
-        if let currencyRates = currencyRates.value {
-            return markedCurrenciesList.contains(currencyRates[index].code)
-        } else {
-            fatalError("There is no currencyRates")
-        }
-    }
-    
-    /// MARK: - Tap handlers functions
+    /// MARK: - Protocol Functions
     
     func navButtonClickedAction() {
         switch viewMode {
         case .normal:
             viewMode = .addCurrency
-            navTitle.value = "Save"
+            navTitle.value = NSLocalizedString("Main: Save", comment: "")
         case .addCurrency:
             viewMode = .normal
-            navTitle.value = "Add Currency"
+            navTitle.value = NSLocalizedString("Main: Add Currency", comment: "")
         }
         updateViewData()
     }
     
-    func tapOnCell(at rowIndex: Int) {
+    func getCellDataForCurrency(at index: Int, amountText: String?) -> (currency: Currency, rate: Double, isMarked: Bool) {
+        if let currencyRates = currencyRates.value {
+            let currency = currencyRates[index]
+            let rate = CurrencyManager.getCurrencyRate(currencyRate: currency.rate, baseCurrencyRate: baseCurrency.value.rate, amount: getAmount(amountText))
+            let isMarked = isCurrencyMarked(at: index)
+            return (currency, rate, isMarked)
+        } else {
+            fatalError("There is no currencyRates")
+        }
+    }
+    
+    func tapOnCellAction(at rowIndex: Int) {
         switch viewMode {
         case .normal:
             normalSelectRow(rowIndex: rowIndex)
@@ -101,6 +91,8 @@ class MainViewViewModel: MainViewModelProtocol {
             addCurrencySelectRow(rowIndex: rowIndex)
         }
     }
+    
+    /// MARK: - Helper Functions
     
     fileprivate func normalSelectRow(rowIndex: Int) {
         if let currencyRates = currencyRates.value {
@@ -123,6 +115,22 @@ class MainViewViewModel: MainViewModelProtocol {
                 markedCurrenciesList.append(currencyRates[rowIndex].code)
             }
             updateViewData()
+        }
+    }
+    
+    fileprivate func getAmount(_ amountText: String?) -> Double {
+        if let amountText = amountText, amountText != "" {
+            return Double(amountText) ?? 1.0
+        } else {
+            return 1.0
+        }
+    }
+    
+    fileprivate func isCurrencyMarked(at index: Int) -> Bool {
+        if let currencyRates = currencyRates.value {
+            return markedCurrenciesList.contains(currencyRates[index].code)
+        } else {
+            fatalError("There is no currencyRates")
         }
     }
     

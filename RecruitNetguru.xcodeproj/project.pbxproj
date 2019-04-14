@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		5B8735C2226087510078713F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B8735C1226087510078713F /* Assets.xcassets */; };
 		5B8735C5226087510078713F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B8735C3226087510078713F /* LaunchScreen.storyboard */; };
-		5B8735D0226087510078713F /* RecruitNetguruTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735CF226087510078713F /* RecruitNetguruTests.swift */; };
+		5B8735D0226087510078713F /* RecruitNetguruCurrencyManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735CF226087510078713F /* RecruitNetguruCurrencyManagerTests.swift */; };
 		5B8735E0226087F20078713F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735DF226087F20078713F /* Extensions.swift */; };
 		5B8735E22260880C0078713F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735E12260880C0078713F /* AppDelegate.swift */; };
 		5B8735E42260881C0078713F /* CurrencyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735E32260881C0078713F /* CurrencyCell.swift */; };
@@ -22,6 +22,8 @@
 		5B8735F6226349640078713F /* MainViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735F5226349640078713F /* MainViewViewModel.swift */; };
 		5B8735F8226349EF0078713F /* MainViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735F7226349EF0078713F /* MainViewModelProtocol.swift */; };
 		5B8735FA22634A2D0078713F /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735F922634A2D0078713F /* Dynamic.swift */; };
+		5B8735FC226371D00078713F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B8735FB226371D00078713F /* Localizable.strings */; };
+		5B8735FE2263793F0078713F /* RecruitNetguruMVVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735FD2263793F0078713F /* RecruitNetguruMVVMTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,7 +42,7 @@
 		5B8735C4226087510078713F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5B8735C6226087510078713F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B8735CB226087510078713F /* RecruitNetguruTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecruitNetguruTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5B8735CF226087510078713F /* RecruitNetguruTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitNetguruTests.swift; sourceTree = "<group>"; };
+		5B8735CF226087510078713F /* RecruitNetguruCurrencyManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitNetguruCurrencyManagerTests.swift; sourceTree = "<group>"; };
 		5B8735D1226087510078713F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B8735DF226087F20078713F /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		5B8735E12260880C0078713F /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -54,6 +56,8 @@
 		5B8735F5226349640078713F /* MainViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewViewModel.swift; sourceTree = "<group>"; };
 		5B8735F7226349EF0078713F /* MainViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModelProtocol.swift; sourceTree = "<group>"; };
 		5B8735F922634A2D0078713F /* Dynamic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
+		5B8735FB226371D00078713F /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		5B8735FD2263793F0078713F /* RecruitNetguruMVVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitNetguruMVVMTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +107,7 @@
 				5B8735DA2260878F0078713F /* Extensions */,
 				5B8735C1226087510078713F /* Assets.xcassets */,
 				5B8735C3226087510078713F /* LaunchScreen.storyboard */,
+				5B8735FB226371D00078713F /* Localizable.strings */,
 				5B8735C6226087510078713F /* Info.plist */,
 			);
 			path = RecruitNetguru;
@@ -111,7 +116,8 @@
 		5B8735CE226087510078713F /* RecruitNetguruTests */ = {
 			isa = PBXGroup;
 			children = (
-				5B8735CF226087510078713F /* RecruitNetguruTests.swift */,
+				5B8735FD2263793F0078713F /* RecruitNetguruMVVMTests.swift */,
+				5B8735CF226087510078713F /* RecruitNetguruCurrencyManagerTests.swift */,
 				5B8735D1226087510078713F /* Info.plist */,
 			);
 			path = RecruitNetguruTests;
@@ -270,6 +276,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B8735C5226087510078713F /* LaunchScreen.storyboard in Resources */,
+				5B8735FC226371D00078713F /* Localizable.strings in Resources */,
 				5B8735C2226087510078713F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -307,7 +314,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B8735D0226087510078713F /* RecruitNetguruTests.swift in Sources */,
+				5B8735D0226087510078713F /* RecruitNetguruCurrencyManagerTests.swift in Sources */,
+				5B8735FE2263793F0078713F /* RecruitNetguruMVVMTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
