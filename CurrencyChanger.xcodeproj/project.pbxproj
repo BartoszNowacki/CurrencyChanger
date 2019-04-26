@@ -24,6 +24,8 @@
 		5B8735FA22634A2D0078713F /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735F922634A2D0078713F /* Dynamic.swift */; };
 		5B8735FC226371D00078713F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B8735FB226371D00078713F /* Localizable.strings */; };
 		5B8735FE2263793F0078713F /* CurrencyChangerMVVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8735FD2263793F0078713F /* CurrencyChangerMVVMTests.swift */; };
+		5BD2C21F22733324000D8A47 /* Appfile in Resources */ = {isa = PBXBuildFile; fileRef = 5BD2C21D22733324000D8A47 /* Appfile */; };
+		5BD2C22022733324000D8A47 /* Fastfile in Resources */ = {isa = PBXBuildFile; fileRef = 5BD2C21E22733324000D8A47 /* Fastfile */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +60,8 @@
 		5B8735F922634A2D0078713F /* Dynamic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
 		5B8735FB226371D00078713F /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		5B8735FD2263793F0078713F /* CurrencyChangerMVVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyChangerMVVMTests.swift; sourceTree = "<group>"; };
+		5BD2C21D22733324000D8A47 /* Appfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Appfile; sourceTree = "<group>"; };
+		5BD2C21E22733324000D8A47 /* Fastfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Fastfile; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +88,7 @@
 				5B8735B9226087500078713F /* CurrencyChanger */,
 				5B8735CE226087510078713F /* CurrencyChangerTests */,
 				5B8735B8226087500078713F /* Products */,
+				5BD2C21C22733324000D8A47 /* fastlane */,
 			);
 			sourceTree = "<group>";
 		};
@@ -193,6 +198,15 @@
 			path = MainView;
 			sourceTree = "<group>";
 		};
+		5BD2C21C22733324000D8A47 /* fastlane */ = {
+			isa = PBXGroup;
+			children = (
+				5BD2C21D22733324000D8A47 /* Appfile */,
+				5BD2C21E22733324000D8A47 /* Fastfile */,
+			);
+			path = fastlane;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -275,6 +289,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BD2C22022733324000D8A47 /* Fastfile in Resources */,
+				5BD2C21F22733324000D8A47 /* Appfile in Resources */,
 				5B8735C5226087510078713F /* LaunchScreen.storyboard in Resources */,
 				5B8735FC226371D00078713F /* Localizable.strings in Resources */,
 				5B8735C2226087510078713F /* Assets.xcassets in Resources */,
