@@ -66,12 +66,11 @@ extension APIRequest {
         let urlComponents = NSURLComponents(string: "\(baseUrl)\(endpoint)")!
         var items = [URLQueryItem]()
         if let params = request.params() {
-            items = params
+            items += params
         }
         items.append(URLQueryItem(name: "access_key", value: apiKey))
         urlComponents.queryItems = items
-        var endpointRequest = URLRequest(url: urlComponents.url!)
-        endpointRequest.addValue("application/json", forHTTPHeaderField: "Accept")
+        let endpointRequest = URLRequest(url: urlComponents.url!)
         return endpointRequest
     }
     

@@ -12,10 +12,10 @@ class CurrencyManager {
     
     /// Converts Currencies model to array of Currency Models.
     /// - parameter Currencies: Main model from API
-    /// - returns: [Currency] Full list of Currency models
+    /// - returns: [Currency] Full list of sorted Currency models
     static func getFullList(currencies: Currencies) -> [Currency] {
         var cRates = [Currency]()
-        for code in Array(currencies.rates.keys) {
+        for code in Array(currencies.rates.keys).sorted() {
             let rate = currencies.rates[code]!
             cRates.append(Currency(code: code, rate: rate))
         }
