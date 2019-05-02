@@ -21,9 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func getView() -> MainViewController {
-        let homeViewController = MainViewController()
-        homeViewController.view.backgroundColor = UIColor.white
-        return homeViewController
+    func getView() -> UINavigationController {
+        let mainViewController = MainViewController()
+        mainViewController.view.backgroundColor = UIColor.white
+        let navigationViewController = UINavigationController(rootViewController: mainViewController)
+        return navigationViewController
     }
 }

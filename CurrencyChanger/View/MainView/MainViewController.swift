@@ -15,7 +15,7 @@ final class MainViewController: UIViewController {
     let tableView = UITableView()
     let baseCurrencyLabel = UILabel()
     let amountField = UITextField()
-    let navButton = UIBarButtonItem(title: NSLocalizedString("Main: Add Currency", comment: ""), style: .plain, target: nil, action: #selector(navButtonClicked))
+    var navButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(navButtonClicked))
     
     let cellID = "CurrencyCell"
     
@@ -45,9 +45,13 @@ final class MainViewController: UIViewController {
     
     /// This functions bind data from viewModel. If change occurs, the view will respond and update
     fileprivate func bindViewModel() {
-        viewModel.navTitle.bindAndFire {
+        viewModel.isAddingMode.bindAndFire {
             [unowned self] in
-            self.navButton.title = $0
+            self.setupNavButton($0)
+            }
+        viewModel.baseCurrency.bindAndFire {
+            [unowned self] in
+            self.baseCurrencyLabel.text = $0.code
         }
         viewModel.baseCurrency.bindAndFire {
             [unowned self] in
@@ -95,11 +99,12 @@ final class MainViewController: UIViewController {
 
     
     private func setupNavBar() {
-        let navBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
-        mainStackView.addArrangedSubview(navBar)
-        let navItem = UINavigationItem(title: NSLocalizedString("Main: Title", comment: ""))
-        navItem.rightBarButtonItem = navButton
-        navBar.setItems([navItem], animated: false)
+        setupNavButton()
+    }
+    
+    private func setupNavButton(_ isAddingMode: Bool = false) {
+        let navButton = UIBarButtonItem(barButtonSystemItem: isAddingMode ? .save : .add, target: self, action: #selector(navButtonClicked))
+        self.navigationItem.rightBarButtonItem = navButton
     }
     
     private func setupBaseView()  {
@@ -131,6 +136,7 @@ final class MainViewController: UIViewController {
     
     /// Navigation button action, which change current viewMode state.
     @objc func navButtonClicked() {
+        print("clicked")
         viewModel.navButtonClickedAction()
     }
 

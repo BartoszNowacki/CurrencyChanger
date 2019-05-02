@@ -18,7 +18,7 @@ class MainViewViewModel: MainViewModelProtocol {
     var currencies: Currencies?
     let baseCurrency: Dynamic<Currency>
     let currencyRates: Dynamic<[Currency]?>
-    let navTitle: Dynamic<String>
+    let isAddingMode: Dynamic<Bool> = Dynamic(false)
     var markedCurrenciesList = ["USD", "PLN", "CAD", "GBP"]
     var viewMode: ViewMode = .normal
     
@@ -26,7 +26,6 @@ class MainViewViewModel: MainViewModelProtocol {
     init() {
         self.baseCurrency = Dynamic(Currency(code: "EUR", rate: 1.0))
         self.currencyRates = Dynamic(nil)
-        self.navTitle = Dynamic("Add Currency")
         getCurrencies()
     }
     
@@ -65,10 +64,10 @@ class MainViewViewModel: MainViewModelProtocol {
         switch viewMode {
         case .normal:
             viewMode = .addCurrency
-            navTitle.value = NSLocalizedString("Main: Save", comment: "")
+            isAddingMode.value = true
         case .addCurrency:
             viewMode = .normal
-            navTitle.value = NSLocalizedString("Main: Add Currency", comment: "")
+            isAddingMode.value = false
         }
         updateViewData()
     }
