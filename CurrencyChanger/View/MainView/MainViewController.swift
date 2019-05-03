@@ -15,7 +15,8 @@ final class MainViewController: UIViewController {
     let tableView = UITableView()
     let baseCurrencyLabel = UILabel()
     let amountField = UITextField()
-    var navButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(navButtonClicked))
+    let searchBar = UISearchBar()
+    var navButton = UIBarButtonItem()
     
     let cellID = "CurrencyCell"
     
@@ -43,11 +44,11 @@ final class MainViewController: UIViewController {
     }
     
     
-    /// This functions bind data from viewModel. If change occurs, the view will respond and update
+    /// This functions bind data from viewModel. If change occurs, the view will respond and update itself.
     fileprivate func bindViewModel() {
-        viewModel.isAddingMode.bindAndFire {
+        viewModel.viewMode.bindAndFire {
             [unowned self] in
-            self.setupNavButton($0)
+            self.setupNavButton(isAddingMode: $0 == ViewMode.addCurrency)
             }
         viewModel.baseCurrency.bindAndFire {
             [unowned self] in
@@ -55,7 +56,7 @@ final class MainViewController: UIViewController {
         }
         viewModel.baseCurrency.bindAndFire {
             [unowned self] in
-            self.baseCurrencyLabel.text = $0.code
+            self.baseCurrencyLabel.text = "\($0.code)"
         }
         viewModel.currencyRates.bindAndFire {
             [unowned self] in
@@ -99,12 +100,16 @@ final class MainViewController: UIViewController {
 
     
     private func setupNavBar() {
+        searchBar.sizeToFit()
+        searchBar.delegate = self
+        searchBar.placeholder = "Search Currency"
         setupNavButton()
     }
     
-    private func setupNavButton(_ isAddingMode: Bool = false) {
+    private func setupNavButton(isAddingMode: Bool = false) {
         let navButton = UIBarButtonItem(barButtonSystemItem: isAddingMode ? .save : .add, target: self, action: #selector(navButtonClicked))
         self.navigationItem.rightBarButtonItem = navButton
+        self.navigationItem.titleView = isAddingMode ? searchBar : nil
     }
     
     private func setupBaseView()  {
@@ -136,7 +141,7 @@ final class MainViewController: UIViewController {
     
     /// Navigation button action, which change current viewMode state.
     @objc func navButtonClicked() {
-        print("clicked")
+        searchBar.text?.removeAll()
         viewModel.navButtonClickedAction()
     }
 
@@ -173,5 +178,11 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
 extension MainViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         tableView.reloadData()
+    }
+}
+
+extension MainViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.searchDidChange(with: searchText)
     }
 }

@@ -6,7 +6,7 @@
 //  Copyright © 2019 Bartosz Nowacki. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 enum ViewMode {
     case normal
@@ -18,18 +18,19 @@ class MainViewViewModel: MainViewModelProtocol {
     var currencies: Currencies?
     let baseCurrency: Dynamic<Currency>
     let currencyRates: Dynamic<[Currency]?>
-    let isAddingMode: Dynamic<Bool> = Dynamic(false)
     var markedCurrenciesList = ["USD", "PLN", "CAD", "GBP"]
-    var viewMode: ViewMode = .normal
+    let viewMode: Dynamic<ViewMode> = Dynamic(.normal)
+    var searchText: String
     
     
     init() {
         self.baseCurrency = Dynamic(Currency(code: "EUR", rate: 1.0))
         self.currencyRates = Dynamic(nil)
+        self.searchText = ""
         getCurrencies()
     }
     
-    /// Get currencies from API.
+    /// Gets currencies from API. After successful call it saves currencies to var and calls function to update View Data.
     private func getCurrencies() {
         APICurrenciesRequest()
             .dispatch(
@@ -45,31 +46,39 @@ class MainViewViewModel: MainViewModelProtocol {
             })
     }
     
-    /// Sets currencyRates data for active viewMode and updates View with current Data.
+    /// Sets currencyRates data for active viewMode.
     private func updateViewData() {
         if let currencies = currencies {
-            switch viewMode {
+            switch viewMode.value {
             case .normal:
                 currencyRates.value = CurrencyManager.getMarkedCurrencies(from: currencies, with: markedCurrenciesList)
             case .addCurrency:
-                currencyRates.value = CurrencyManager.getFullList(currencies: currencies)
+                currencyRates.value = CurrencyManager.getSearchedCurrencies(from: currencies, from: searchText)
             }
         }
     }
     
     // MARK: - Protocol Functions
     
-    /// Switch viewMode and displayed data.
+    /// This function is switching viewMode and calls function to update View Data.
     func navButtonClickedAction() {
-        switch viewMode {
+        switch viewMode.value {
         case .normal:
-            viewMode = .addCurrency
-            isAddingMode.value = true
+            searchText = ""
+            viewMode.value = .addCurrency
         case .addCurrency:
-            viewMode = .normal
-            isAddingMode.value = false
+            viewMode.value = .normal
         }
         updateViewData()
+    }
+    
+    
+    /// This function save text for search, and calls method for getting data for that searched text.
+    func searchDidChange(with text: String) {
+        if let currencies = currencies {
+            searchText = text
+            currencyRates.value = CurrencyManager.getSearchedCurrencies(from: currencies, from: searchText)
+        }
     }
     
     /// Gets data for cell with given index.
@@ -89,7 +98,7 @@ class MainViewViewModel: MainViewModelProtocol {
     
     /// Action function for tapping on cell. It choose action depends on viewMode.
     func tapOnCellAction(at rowIndex: Int) {
-        switch viewMode {
+        switch viewMode.value {
         case .normal:
             normalSelectRow(rowIndex: rowIndex)
         case .addCurrency:

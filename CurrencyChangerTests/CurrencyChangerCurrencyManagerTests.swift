@@ -59,5 +59,17 @@ class CurrencyChangerCurrencyManagerTests: XCTestCase {
         // 3. then
         XCTAssertTrue(isMarked, "Function did not set isMarked properly")
     }
+    
+    func testGetsearchedCurrencies() {
+        // 1. given
+        let currencies = Currencies(success: true, timestamp: 1, base: "USD", date: "12-12-2012", rates: ["PLN":1.0, "USD":2.5, "GBP":2.2, "UAH":2.7])
+        let searchedText = "U"
+        // 2. when
+        let list =  CurrencyManager.getSearchedCurrencies(from: currencies, from: searchedText)
+        // 3. then
+        XCTAssertEqual(list.count, 2, "Did not returned correct number of currencies")
+        XCTAssertEqual(list[0].code.first, searchedText.first, "In first code - First letter is not equal to searchedString")
+        XCTAssertEqual(list[1].code.first, searchedText.first, "In second code - First letter is not equal to searchedString")
+    }
 
 }

@@ -28,7 +28,7 @@ class CurrencyChangerMVVMTests: XCTestCase {
         let markedList = ["PLN", "GBP", "RUB"]
         let currencyRates = [Currency(code: "PLN", rate: 1.0), Currency(code: "USD", rate: 2.5), Currency(code: "GBP", rate: 2.2)]
          mainVVMTest.currencies = Currencies(success: true, timestamp: 1, base: "EUR", date: "12-12-2012", rates: ["PLN":1.0, "USD":2.5, "GBP":2.2])
-        mainVVMTest.viewMode = .normal
+        mainVVMTest.viewMode.value = .normal
         mainVVMTest.currencyRates.value = currencyRates
         mainVVMTest.markedCurrenciesList = markedList
         let baseCode = mainVVMTest.baseCurrency.value.code
@@ -45,7 +45,7 @@ class CurrencyChangerMVVMTests: XCTestCase {
         // 1. given
         let markedList = ["PLN"]
         mainVVMTest.currencies = Currencies(success: true, timestamp: 1, base: "USD", date: "12-12-2012", rates: ["PLN":1.0, "USD":2.5, "GBP":2.2])
-        mainVVMTest.viewMode = .addCurrency
+        mainVVMTest.viewMode.value = .addCurrency
         mainVVMTest.markedCurrenciesList = markedList
         mainVVMTest.currencyRates.value = [Currency(code: "PLN", rate: 1.0), Currency(code: "USD", rate: 2.5), Currency(code: "GBP", rate: 2.2)]
         // 2. when
@@ -74,11 +74,11 @@ class CurrencyChangerMVVMTests: XCTestCase {
         // 1. given
         mainVVMTest.currencies = Currencies(success: true, timestamp: 1, base: "USD", date: "12-12-2012", rates: ["PLN":1.0, "USD":2.5, "GBP":2.2])
         let viewMode: ViewMode = .normal
-        mainVVMTest.viewMode = viewMode
+        mainVVMTest.viewMode.value = viewMode
         // 2. when
         mainVVMTest.navButtonClickedAction()
         // 3. then
-        XCTAssertNotEqual(mainVVMTest.viewMode, viewMode, "viewMode did not changed")
+        XCTAssertNotEqual(mainVVMTest.viewMode.value, viewMode, "viewMode did not changed")
         if let currencyRates = mainVVMTest.currencyRates.value, let currencies = mainVVMTest.currencies {
             XCTAssertEqual(currencyRates.count, currencies.rates.count, "Did not get full list of elements")
         } else {

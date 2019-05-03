@@ -9,8 +9,9 @@
 protocol MainViewModelProtocol {
     var currencyRates: Dynamic<[Currency]?> { get }
     var baseCurrency: Dynamic<Currency> { get }
-    var isAddingMode: Dynamic<Bool> { get }
+    var viewMode: Dynamic<ViewMode> { get }
     func tapOnCellAction(at rowIndex: Int)
     func navButtonClickedAction()
+    func searchDidChange(with text: String)
     func getCellDataForCurrency(at index: Int, amountText: String?) -> (currency: Currency, rate: Double, isMarked: Bool)
 }

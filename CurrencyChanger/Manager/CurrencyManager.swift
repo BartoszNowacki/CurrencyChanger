@@ -38,6 +38,22 @@ class CurrencyManager {
     }
     
     
+    /// Function which is returning Array of Currency Models for given searched code.
+    /// - parameter Currencies: Main model from API
+    /// - parameter searchedText: String which contains part or full code of currency.
+    /// - returns: [Currency] - List of searched Currencies
+    static func getSearchedCurrencies(from currencies: Currencies, from searchedText: String) -> [Currency] {
+        let baseList = getFullList(currencies: currencies)
+        var currencyList = [Currency]()
+        for currency in baseList {
+            if currency.code.hasPrefix(searchedText.uppercased()) {
+                currencyList.append(currency)
+            }
+        }
+        return currencyList
+    }
+    
+    
     /// Function check if given currency is marked.
     /// - parameter currency: Currency to be checked
     /// - parameter markedList: String array of marked currency codes
