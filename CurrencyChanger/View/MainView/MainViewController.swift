@@ -147,6 +147,8 @@ final class MainViewController: UIViewController {
 
 }
 
+// MARK: - Delegate section
+
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
