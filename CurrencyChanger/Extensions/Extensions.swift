@@ -82,3 +82,33 @@ extension UITabBarController {
         return .all
     }
 }
+
+extension String {
+    func countEmojiCharacter() -> Int {
+        
+        func isEmoji(s:NSString) -> Bool {
+            
+            let high:Int = Int(s.character(at: 0))
+            if 0xD800 <= high && high <= 0xDBFF {
+                let low:Int = Int(s.character(at: 1))
+                let codepoint: Int = ((high - 0xD800) * 0x400) + (low - 0xDC00) + 0x10000
+                return (0x1D000 <= codepoint && codepoint <= 0x1F9FF)
+            }
+            else {
+                return (0x2100 <= high && high <= 0x27BF)
+            }
+        }
+        
+        let nsString = self as NSString
+        var length = 0
+        
+        nsString.enumerateSubstrings(in: NSMakeRange(0, nsString.length), options: NSString.EnumerationOptions.byComposedCharacterSequences) { (subString, substringRange, enclosingRange, stop) -> Void in
+            
+            if isEmoji(s: subString! as NSString) {
+                length += 1
+            }
+        }
+        
+        return length
+    }
+}

@@ -17,7 +17,7 @@ class CurrencyManager {
         var cRates = [Currency]()
         for code in Array(currencies.rates.keys).sorted() {
             let rate = currencies.rates[code]!
-            cRates.append(Currency(code: code, rate: rate))
+            cRates.append(Currency(code: code, flag: getCurrencyFlag(for: code), rate: rate))
         }
         return cRates
     }
@@ -37,7 +37,6 @@ class CurrencyManager {
         return currencyList
     }
     
-    
     /// Function which is returning Array of Currency Models for given searched code.
     /// - parameter Currencies: Main model from API
     /// - parameter searchedText: String which contains part or full code of currency.
@@ -51,6 +50,22 @@ class CurrencyManager {
             }
         }
         return currencyList
+    }
+    
+    /// Function which converts currency code into currency code with unicode for region flag
+    /// - parameter currencyCode: String with currency code to be converted
+    /// - returns: String - currency code with unicode for region flag or empty space, if currency is excluded
+    static func getCurrencyFlag(for currencyCode: String) -> String {
+        let excludedCurrencies = ["XPF", "XOF", "XDR", "XCD", "XAU" ,"XAG" , "XAF", "ANG"]
+        let country = currencyCode.dropLast(1)
+        let base : UInt32 = 127397
+        var flag = ""
+        if !excludedCurrencies.contains(currencyCode) {
+            for v in country.unicodeScalars {
+                flag.unicodeScalars.append(UnicodeScalar(base + v.value)!)
+            }
+        }
+        return String(flag)
     }
     
     

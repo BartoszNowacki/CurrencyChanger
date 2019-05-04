@@ -26,7 +26,7 @@ class CurrencyChangerMVVMTests: XCTestCase {
     func testTapOnCellNormal() {
         // 1. given
         let markedList = ["PLN", "GBP", "RUB"]
-        let currencyRates = [Currency(code: "PLN", rate: 1.0), Currency(code: "USD", rate: 2.5), Currency(code: "GBP", rate: 2.2)]
+        let currencyRates = [Currency(code: "PLN", flag: "🇵🇱", rate: 1.0), Currency(code: "USD", flag: "🇺🇸", rate: 2.5), Currency(code: "GBP", flag: "🇬🇧", rate: 2.2)]
          mainVVMTest.currencies = Currencies(success: true, timestamp: 1, base: "EUR", date: "12-12-2012", rates: ["PLN":1.0, "USD":2.5, "GBP":2.2])
         mainVVMTest.viewMode.value = .normal
         mainVVMTest.currencyRates.value = currencyRates
@@ -47,7 +47,7 @@ class CurrencyChangerMVVMTests: XCTestCase {
         mainVVMTest.currencies = Currencies(success: true, timestamp: 1, base: "USD", date: "12-12-2012", rates: ["PLN":1.0, "USD":2.5, "GBP":2.2])
         mainVVMTest.viewMode.value = .addCurrency
         mainVVMTest.markedCurrenciesList = markedList
-        mainVVMTest.currencyRates.value = [Currency(code: "PLN", rate: 1.0), Currency(code: "USD", rate: 2.5), Currency(code: "GBP", rate: 2.2)]
+        mainVVMTest.currencyRates.value = [Currency(code: "PLN", flag: "🇵🇱", rate: 1.0), Currency(code: "USD", flag: "🇺🇸", rate: 2.5), Currency(code: "GBP", flag: "🇬🇧", rate: 2.2)]
         // 2. when
         mainVVMTest.tapOnCellAction(at: 1)
         // 3. then
@@ -58,7 +58,7 @@ class CurrencyChangerMVVMTests: XCTestCase {
         // 1. given
         let amountText = "20"
         let index = 2
-        let currencyRates = [Currency(code: "PLN", rate: 1.3), Currency(code: "USD", rate: 2.5), Currency(code: "GBP", rate: 2.2)]
+        let currencyRates = [Currency(code: "PLN", flag: "🇵🇱", rate: 1.3), Currency(code: "USD", flag: "🇺🇸", rate: 2.5), Currency(code: "GBP", flag: "🇬🇧", rate: 2.2)]
         let markedList = ["PLN", "GBP"]
         mainVVMTest.markedCurrenciesList = markedList
         mainVVMTest.currencyRates.value = currencyRates

@@ -52,7 +52,7 @@ class CurrencyChangerCurrencyManagerTests: XCTestCase {
     
     func testIsMarked() {
         // 1. given
-        let currency = Currency(code: "PLN", rate: 2.5)
+        let currency = Currency(code: "PLN", flag: "🇵🇱", rate: 2.5)
         let markedList = ["PLN", "GBP", "RUB"]
         // 2. when
         let isMarked =  CurrencyManager.checkIfCurrencyIsMarked(currency: currency, markedList: markedList)
@@ -60,7 +60,7 @@ class CurrencyChangerCurrencyManagerTests: XCTestCase {
         XCTAssertTrue(isMarked, "Function did not set isMarked properly")
     }
     
-    func testGetsearchedCurrencies() {
+    func testGetSearchedCurrencies() {
         // 1. given
         let currencies = Currencies(success: true, timestamp: 1, base: "USD", date: "12-12-2012", rates: ["PLN":1.0, "USD":2.5, "GBP":2.2, "UAH":2.7])
         let searchedText = "U"
@@ -70,6 +70,15 @@ class CurrencyChangerCurrencyManagerTests: XCTestCase {
         XCTAssertEqual(list.count, 2, "Did not returned correct number of currencies")
         XCTAssertEqual(list[0].code.first, searchedText.first, "In first code - First letter is not equal to searchedString")
         XCTAssertEqual(list[1].code.first, searchedText.first, "In second code - First letter is not equal to searchedString")
+    }
+    
+    func testGetCurrencyFlag() {
+        // 1. given
+        let currencyCode = "PLN"
+        // 2. when
+        let flag =  CurrencyManager.getCurrencyFlag(for: currencyCode)
+        // 3. then
+        XCTAssertEqual(flag, "🇵🇱", "Result is not equal to expected flag")
     }
 
 }

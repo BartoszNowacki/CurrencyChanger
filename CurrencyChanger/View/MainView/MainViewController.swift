@@ -13,6 +13,7 @@ final class MainViewController: UIViewController {
     let mainStackView = UIStackView()
     let ratesStackView = UIStackView()
     let tableView = UITableView()
+    let baseFlagLabel = UILabel()
     let baseCurrencyLabel = UILabel()
     let amountField = UITextField()
     let searchBar = UISearchBar()
@@ -52,11 +53,7 @@ final class MainViewController: UIViewController {
             }
         viewModel.baseCurrency.bindAndFire {
             [unowned self] in
-            self.baseCurrencyLabel.text = $0.code
-        }
-        viewModel.baseCurrency.bindAndFire {
-            [unowned self] in
-            self.baseCurrencyLabel.text = "\($0.code)"
+            self.baseCurrencyLabel.text = $0.flag + $0.code
         }
         viewModel.currencyRates.bindAndFire {
             [unowned self] in

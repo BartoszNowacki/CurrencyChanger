@@ -24,7 +24,7 @@ class MainViewViewModel: MainViewModelProtocol {
     
     
     init() {
-        self.baseCurrency = Dynamic(Currency(code: "EUR", rate: 1.0))
+        self.baseCurrency = Dynamic(Currency(code: "EUR", flag: CurrencyManager.getCurrencyFlag(for: "EUR"), rate: 1.0))
         self.currencyRates = Dynamic(nil)
         self.searchText = ""
         getCurrencies()
