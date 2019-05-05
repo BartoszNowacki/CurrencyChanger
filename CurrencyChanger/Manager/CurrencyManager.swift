@@ -14,12 +14,8 @@ class CurrencyManager {
     /// - parameter Currencies: Main model from API
     /// - returns: [Currency] Full list of sorted Currency models
     static func getFullList(currencies: Currencies) -> [Currency] {
-        var cRates = [Currency]()
-        for code in Array(currencies.rates.keys).sorted() {
-            let rate = currencies.rates[code]!
-            cRates.append(Currency(code: code, flag: getCurrencyFlag(for: code), rate: rate))
-        }
-        return cRates
+        let cRates = currencies.rates.map { Currency(code: $0.key, flag: getCurrencyFlag(for: $0.key), rate: $0.value) }
+        return cRates.sorted(by: <)
     }
     
     /// Function which is returning Array of Currency Models, only from markedList.
@@ -28,12 +24,7 @@ class CurrencyManager {
     /// - returns: [Currency] - List of marked Currency
     static func getMarkedCurrencies(from currencies: Currencies, with markedList: [String]) -> [Currency] {
         let baseList = getFullList(currencies: currencies)
-        var currencyList = [Currency]()
-        for currency in baseList {
-            if markedList.contains(currency.code) {
-                currencyList.append(currency)
-            }
-        }
+        let currencyList = baseList.filter { markedList.contains($0.code) }
         return currencyList
     }
     
@@ -43,12 +34,7 @@ class CurrencyManager {
     /// - returns: [Currency] - List of searched Currencies
     static func getSearchedCurrencies(from currencies: Currencies, from searchedText: String) -> [Currency] {
         let baseList = getFullList(currencies: currencies)
-        var currencyList = [Currency]()
-        for currency in baseList {
-            if currency.code.hasPrefix(searchedText.uppercased()) {
-                currencyList.append(currency)
-            }
-        }
+        let currencyList = baseList.filter { $0.code.hasPrefix(searchedText.uppercased())}
         return currencyList
     }
     
@@ -59,13 +45,13 @@ class CurrencyManager {
         let excludedCurrencies = ["XPF", "XOF", "XDR", "XCD", "XAU" ,"XAG" , "XAF", "ANG"]
         let country = currencyCode.dropLast(1)
         let base : UInt32 = 127397
-        var flag = ""
         if !excludedCurrencies.contains(currencyCode) {
-            for v in country.unicodeScalars {
-                flag.unicodeScalars.append(UnicodeScalar(base + v.value)!)
+            let flag = country.unicodeScalars.reduce("") { (result, code) in
+                result + String(UnicodeScalar(base + code.value)!)
             }
+            return flag
         }
-        return String(flag)
+        return ""
     }
     
     
